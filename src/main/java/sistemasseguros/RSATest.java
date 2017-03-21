@@ -72,12 +72,12 @@ public final class RSATest {
 
 			String msg = "lalalalal";
 			
-			Signature signature = Signature.getInstance("RSA");
+			Signature signature = Signature.getInstance("SHA1withRSA");
 			signature.initSign(pair.getPrivate());
 			signature.update(msg.getBytes());
 			byte[] signValue = signature.sign();
 			
-			signature = Signature.getInstance("RSA");
+			signature = Signature.getInstance("SHA1withRSA");
 			signature.initVerify(pair.getPublic());
 			signature.update(msg.getBytes());
 			boolean verify = signature.verify(signValue);
