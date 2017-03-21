@@ -5,6 +5,8 @@ import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.Signature;
+import java.security.SignatureException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -14,10 +16,12 @@ import javax.crypto.SealedObject;
 
 import org.junit.Test;
 
+import junit.framework.Assert;
+
 public final class RSATest {
 
 	@Test
-	public void test01() {
+	public void testConfidencialidadeRSA() {
 		try {
 			KeyPairGenerator keyPair = KeyPairGenerator.getInstance("RSA");
 			KeyPair pair = keyPair.generateKeyPair();
@@ -57,6 +61,41 @@ public final class RSATest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void testAutenticidade() throws NoSuchPaddingException {
+		KeyPairGenerator keyPair;
+		try {
+			keyPair = KeyPairGenerator.getInstance("RSA");
+			KeyPair pair = keyPair.generateKeyPair();
+
+			String msg = "lalalalal";
+			
+			Signature signature = Signature.getInstance("RSA");
+			signature.initSign(pair.getPrivate());
+			signature.update(msg.getBytes());
+			byte[] signValue = signature.sign();
+			
+			signature = Signature.getInstance("RSA");
+			signature.initVerify(pair.getPublic());
+			signature.update(msg.getBytes());
+			boolean verify = signature.verify(signValue);
+			
+			Assert.assertEquals(true, verify);
+			
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SignatureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 }
