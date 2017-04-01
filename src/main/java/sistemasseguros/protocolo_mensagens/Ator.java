@@ -63,7 +63,7 @@ public class Ator {
 	}
 
 	public boolean temChaveSimetricaCom(Ator para) {
-		return contatos.get(para.getNome()) != null;		
+		return getContatos().get(para.getNome()) != null;		
 	}
 
 	public PublicKey getChavePublica() {
@@ -71,7 +71,7 @@ public class Ator {
 	}
 
 	public void receberAES(Ator de, SealedObject encriptMessage) {		
-		contatos.put(de.getNome(), de);
+		getContatos().put(de.getNome(), de);
 		Cipher decCipher;
 		try {
 			decCipher = Cipher.getInstance("RSA");
@@ -119,7 +119,15 @@ public class Ator {
 	public void recerMensagem(String encrypt) {
 		ultimaMensagemRecebidaCriptografada = encrypt;
 		ultimaMensagemRecebidaDescriptografada = AES.decrypt(getAESKey(), getAESInitVector(), encrypt);
-		System.out.println(String.format("%s recebeu a mensagem: %s", this.getNome(), ultimaMensagemRecebidaDescriptografada));
+		System.out.println(String.format("[MENSAGEM RECEBIDA] %s", this.getNome()));
 	}			
+
+	public HashMap<String, Ator> getContatos() {
+		return contatos;
+	}
+
+	public void setContatos(HashMap<String, Ator> contatos) {
+		this.contatos = contatos;
+	}
 
 }

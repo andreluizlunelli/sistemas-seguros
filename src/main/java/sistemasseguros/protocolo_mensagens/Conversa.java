@@ -29,17 +29,17 @@ public class Conversa {
 
 	public void mensagem(Ator para, String mensagem) {
 		Ator de = getDe(para);					
-		if (! de.temChaveSimetricaCom(para)) {
-			// pega a chave publica do maluco
-			// faz esquema com as chaves publicas dos dois participantes para gerar a chave simentrica que será utilizada depois nas conversas
+		if (! de.temChaveSimetricaCom(para)) {			
 			enviarChaveEVetorInicializacaoAES(para);
 		}
-		System.out.println(String.format("%s enviou a mensagem: %s", de.getNome(), mensagem));
+		System.out.println(String.format("[MENSAGEM] %s: %s", de.getNome(), mensagem));
 		para.recerMensagem(AES.encrypt(de.getAESKey(), de.getAESInitVector(), mensagem));		
 	}
 	
 
 	private void enviarChaveEVetorInicializacaoAES(Ator para) {
+		Ator de = getDe(para);
+		System.out.println(String.format("[CRIANDO CHAVE AES] %s enviando >>> %s", de.getNome(), para.getNome()));
 		Cipher encCipher;
 		try {			
 			KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
@@ -54,11 +54,11 @@ public class Conversa {
 			encCipher.init(Cipher.ENCRYPT_MODE, para.getChavePublica());
 						
 			SealedObject encriptMessage = new SealedObject(enviar, encCipher);
-			
-			Ator de = getDe(para);
+						
 			de.setAESInitVector(initVector);
 			de.setAESKey(key);
 			para.receberAES(de, encriptMessage);
+			de.getContatos().put(para.getNome(), para);
 			
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -82,7 +82,6 @@ public class Conversa {
 				sb.append(Integer.toString((keyBytes[i] & 0xff) + 0x100, 16).substring(1));
 			}
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return sb.toString();		

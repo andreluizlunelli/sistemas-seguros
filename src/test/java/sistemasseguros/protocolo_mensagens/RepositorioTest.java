@@ -16,6 +16,8 @@ public class RepositorioTest {
 		
 		Conversa conversa = repo.conversar(pessoa1, pessoa2);		
 		conversa.mensagem(pessoa2, "Opa e ai blz?");
-		
+		conversa.mensagem(pessoa1, "tudo certinho, e o trabalho já terminou?");
+		conversa.mensagem(pessoa2, "rs.. ta quase");
+				
 	}
 }
