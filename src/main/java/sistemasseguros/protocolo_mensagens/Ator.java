@@ -32,6 +32,8 @@ public class Ator {
 	public Ator(String nome, String senha) {
 		this.nome = nome;
 		this.senha = senha;
+		// tenho que fazer um if, se já existe, ai eu carrego, se não gero
+		// ai quando eu gerar um chave nova, ai eu adiciono no repositório
 		gerarChavesCriptografiaAssimetrica();
 	}
 
