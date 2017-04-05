@@ -42,6 +42,10 @@ public class Conversa {
 		System.out.println(String.format("[CRIANDO CHAVE AES] %s enviando >>> %s", de.getNome(), para.getNome()));
 		Cipher encCipher;
 		try {			
+			
+			// metodo para iniciar a conversa o ator que tem que criar a chave RSA pra iniciar a conversa
+			// e um metodo para receber a mensagem (passo de inicialização no ator)
+			
 			KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
 			keyGenerator.init(128);
 			

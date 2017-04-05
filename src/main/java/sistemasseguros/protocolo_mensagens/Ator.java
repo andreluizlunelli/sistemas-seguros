@@ -23,7 +23,7 @@ public class Ator {
 	private KeyPair parChaves;
 	private PrivateKey chavePrivada;
 	private PublicKey chavePublica;
-	private String AESInitVector;
+	private String AESInitVector; // adicionar um hash map ccom o vetor de inicialização e a key para cada contato, 2) E persistir essas chaves em alguma midia ex: meuarquivo.pk 
 	private SecretKey AESKey;
 	private HashMap<String, Ator> contatos = new HashMap<String, Ator>();
 	private String ultimaMensagemRecebidaDescriptografada = "";
@@ -39,6 +39,7 @@ public class Ator {
 
 	public void gerarChavesCriptografiaAssimetrica() {
 		try {
+			
 			parChaves = KeyPairGenerator.getInstance("RSA").generateKeyPair();			
 			chavePrivada = parChaves.getPrivate();
 			chavePublica = parChaves.getPublic();
@@ -47,7 +48,6 @@ public class Ator {
 			e.printStackTrace();
 		}
 	}
-
 	public String getNome() {
 		return nome;
 	}
